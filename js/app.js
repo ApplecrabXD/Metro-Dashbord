@@ -65,13 +65,22 @@ function getLineColor(lineRef) {
   return LINE_COLORS[(lineRef || "").toUpperCase()] || null;
 }
 
+// Fallback marker colours for the map, mirroring the CSS custom properties
+// (kept in sync manually since CSS variables aren't readable before the
+// stylesheet has painted).
+var MODE_COLORS = { bus: "#0033cc", train: "#5f6b93", tram: "#cb2c30", schoolbus: "#8e44ad" };
+
 var proxyMode = "auto"; // auto | direct | proxy
 var refreshTimer = null;
 var currentStop = "16584";
 var currentLabel = "Stop 16584";
 var stops = [];
+var stopsById = {};
 var activeResultIndex = -1;
 var liveUpdatesStarted = false;
+var map = null;
+var stopMarker = null;
+var vehicleMarkers = [];
 
 function byId(id) {
   return document.getElementById(id);
@@ -170,6 +179,13 @@ function siriValue(x) {
   return "";
 }
 
+function siriLatLon(loc) {
+  if (!loc || !Array.isArray(loc.Items) || loc.Items.length < 2) return null;
+  var lat = parseFloat(loc.Items[0]);
+  var lon = parseFloat(loc.Items[1]);
+  return (isNaN(lat) || isNaN(lon)) ? null : [lat, lon];
+}
+
 function modeOf(lineRef, operator) {
   var line = (lineRef || "").toUpperCase();
   var op = (operator || "").toLowerCase();
@@ -215,6 +231,7 @@ function parseVisit(v) {
     operator: operator.replace(/^\d+\s*-\s*/, ""),
     mode: modeOf(lineRef, operator),
     color: getLineColor(lineRef),
+    vehiclePos: siriLatLon(journey.VehicleLocation),
     aimed: aimed,
     expected: expected,
     best: best,
@@ -222,6 +239,54 @@ function parseVisit(v) {
     delay: delayMin,
     stopName: siriValue(call.StopPointName)
   };
+}
+
+/* ---------- map ---------- */
+
+function initMap() {
+  if (typeof L === "undefined" || map) return;
+  map = L.map("map", { scrollWheelZoom: false }).setView([-34.9285, 138.6007], 13);
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 19,
+    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+  // Scroll-zoom is off by default so the map doesn't trap the page scroll;
+  // turn it on once the visitor has deliberately clicked into the map.
+  map.on("click", function () { map.scrollWheelZoom.enable(); });
+}
+
+function getStopCoords(id) {
+  var s = stopsById[id];
+  if (s && typeof s.lat === "number" && !isNaN(s.lat) && typeof s.lon === "number" && !isNaN(s.lon)) {
+    return [s.lat, s.lon];
+  }
+  return null;
+}
+
+function updateStopMarker() {
+  if (!map) return;
+  var coords = getStopCoords(currentStop);
+  if (!coords) return;
+  if (stopMarker) {
+    stopMarker.setLatLng(coords);
+  } else {
+    stopMarker = L.circleMarker(coords, { radius: 9, weight: 2, color: "#fff", fillColor: "#5b93ff", fillOpacity: 1 }).addTo(map);
+  }
+  map.setView(coords, 15);
+}
+
+function updateVehicleMarkers(parsed) {
+  if (!map) return;
+  vehicleMarkers.forEach(function (m) { map.removeLayer(m); });
+  vehicleMarkers = [];
+  parsed.forEach(function (r) {
+    if (!r.vehiclePos) return;
+    var color = r.color ? r.color.bg : (MODE_COLORS[r.mode] || "#5b93ff");
+    var marker = L.circleMarker(r.vehiclePos, { radius: 7, weight: 2, color: "#fff", fillColor: color, fillOpacity: .95 })
+      .bindTooltip(r.line + " to " + r.dest);
+    marker.addTo(map);
+    vehicleMarkers.push(marker);
+  });
 }
 
 /* ---------- rendering ---------- */
@@ -234,6 +299,7 @@ function render(responseTime, visits) {
     if (p.best) parsed.push(p);
   }
   parsed.sort(function (a, b) { return a.best - b.best; });
+  updateVehicleMarkers(parsed);
 
   if (parsed.length && parsed[0].stopName) {
     if (/^Stop \d+$/.test(currentLabel)) {
@@ -360,16 +426,29 @@ function ingestStops(text) {
   var idCol = header.indexOf("stop_id");
   var nameCol = header.indexOf("stop_name");
   var codeCol = header.indexOf("stop_code");
+  var latCol = header.indexOf("stop_lat");
+  var lonCol = header.indexOf("stop_lon");
   if (idCol < 0 || nameCol < 0) throw new Error("missing expected columns");
 
   stops = [];
+  stopsById = {};
   for (var r = 1; r < rows.length; r++) {
     var row = rows[r];
     if (row.length <= idCol) continue;
-    var id = (row[idCol] || "").trim();
+    var gtfsId = (row[idCol] || "").trim();
     var name = (row[nameCol] || "").trim();
     var code = codeCol >= 0 ? (row[codeCol] || "").trim() : "";
-    if (id && name) stops.push({ id: id, name: name, code: code });
+    var lat = latCol >= 0 ? parseFloat(row[latCol]) : NaN;
+    var lon = lonCol >= 0 ? parseFloat(row[lonCol]) : NaN;
+    // The live feed's MonitoringRef is Adelaide Metro's public stop number
+    // (GTFS stop_code, the number printed on the street sign), not the
+    // internal GTFS stop_id -- fall back to stop_id only for stops that
+    // have no code.
+    var id = code || gtfsId;
+    if (!id || !name) continue;
+    var stop = { id: id, name: name, code: code, lat: lat, lon: lon };
+    stops.push(stop);
+    stopsById[id] = stop;
   }
   storageSet("am_stops", JSON.stringify({ t: Date.now(), s: stops }));
   return stops.length;
@@ -382,25 +461,30 @@ function loadCachedStops() {
     var cached = JSON.parse(raw);
     if (cached && Array.isArray(cached.s) && cached.s.length) {
       stops = cached.s;
+      stopsById = {};
+      stops.forEach(function (s) { stopsById[s.id] = s; });
       return true;
     }
   } catch (e) { /* corrupt cache, ignore */ }
   return false;
 }
 
-function downloadStops() {
-  setStatus("Downloading stop list…");
+function downloadStops(silent) {
+  if (!silent) setStatus("Downloading stop list…");
   var index = 0;
   function tryNext() {
     if (index >= STOPS_URLS.length) {
-      setStatus("Couldn't download stop list — you can still type a stop ID.", "err");
+      if (!silent) setStatus("Couldn't download stop list — you can still type a stop ID.", "err");
       return;
     }
     fetchText(STOPS_URLS[index++]).then(function (text) {
       if (text && text.toLowerCase().indexOf("stop_id") >= 0) {
         var count = ingestStops(text);
-        setStatus("Stop list loaded (" + count.toLocaleString() + " stops). Search by name now.", "live");
-        renderResults(byId("stopSearch").value);
+        if (!silent) {
+          setStatus("Stop list loaded (" + count.toLocaleString() + " stops). Search by name now.", "live");
+          renderResults(byId("stopSearch").value);
+        }
+        updateStopMarker();
       } else {
         tryNext();
       }
@@ -475,6 +559,7 @@ function selectStop(id, name) {
   byId("stopName").textContent = currentLabel;
   byId("results").className = "results";
   addFavourite(id, currentLabel);
+  updateStopMarker();
   startLiveUpdates();
   refresh();
 }
@@ -559,11 +644,18 @@ byId("proxyToggle").addEventListener("click", function () {
 /* ---------- init (no auto-fetch at load, so the page is quiet until the user acts) ---------- */
 
 (function init() {
+  initMap();
   if (loadCachedStops()) {
     setStatus("Stop list ready (" + stops.length.toLocaleString() + " stops cached). Click Refresh.");
+  } else {
+    // Fetch quietly in the background so search and the map have stop
+    // names/coordinates ready without making the visitor click "Load stop
+    // list" first.
+    downloadStops(true);
   }
   addFavourite("16584", "Beckman St (Tram) #16584");
   addFavourite("50105", "Stop 50105");
   renderFavourites();
   byId("stopName").textContent = currentLabel;
+  updateStopMarker();
 })();
