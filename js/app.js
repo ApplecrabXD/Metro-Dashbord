@@ -38,6 +38,33 @@ var CORS_PROXIES = [
   function (u) { return "https://test.cors.workers.dev/?" + u; }
 ];
 
+// Official per-line colours, taken from Adelaide Metro's own published GTFS
+// route data (route_color/route_text_color in routes.txt) so the board
+// matches the colours used on Adelaide Metro's own maps and signage, e.g.
+// the Belair line's green and the Glenelg tram's red. Keyed by SIRI LineRef
+// (which matches the GTFS route_id for rail and tram). Regular bus routes
+// all share a single official blue in Adelaide Metro's own data, so buses
+// use the CSS fallback colour instead of an entry here.
+var LINE_COLORS = {
+  BEL:    { bg: "#6bc04b", text: "#ffffff" }, // Belair
+  FLNDRS: { bg: "#ff8030", text: "#ffffff" }, // Flinders
+  SEAFRD: { bg: "#ff8030", text: "#ffffff" }, // Seaford
+  NOAR:   { bg: "#ff8030", text: "#ffffff" }, // Noarlunga
+  GAW:    { bg: "#c23c33", text: "#ffffff" }, // Gawler
+  GAWC:   { bg: "#c23c33", text: "#ffffff" }, // Gawler Central
+  SALIS:  { bg: "#c23c33", text: "#ffffff" }, // Salisbury
+  GLAN:   { bg: "#0071ce", text: "#ffffff" }, // Glanville
+  GRNG:   { bg: "#0071ce", text: "#ffffff" }, // Grange
+  OSBORN: { bg: "#0071ce", text: "#ffffff" }, // Osborne
+  OUTHA:  { bg: "#0071ce", text: "#ffffff" }, // Outer Harbor
+  PTDOCK: { bg: "#0071ce", text: "#ffffff" }, // Port Dock (same corridor/colour as Outer Harbor)
+  GLNELG: { bg: "#cb2c30", text: "#ffffff" }  // Glenelg tram
+};
+
+function getLineColor(lineRef) {
+  return LINE_COLORS[(lineRef || "").toUpperCase()] || null;
+}
+
 var proxyMode = "auto"; // auto | direct | proxy
 var refreshTimer = null;
 var currentStop = "16584";
@@ -187,6 +214,7 @@ function parseVisit(v) {
     dir: siriValue(journey.DirectionRef),
     operator: operator.replace(/^\d+\s*-\s*/, ""),
     mode: modeOf(lineRef, operator),
+    color: getLineColor(lineRef),
     aimed: aimed,
     expected: expected,
     best: best,
@@ -254,9 +282,10 @@ function render(responseTime, visits) {
     }
     var rtBadge = r.isRealtime ? '<span class="badge rt">live</span>' : '<span class="badge">scheduled</span>';
     var dirText = r.dir === "I" ? "Inbound" : r.dir === "O" ? "Outbound" : "";
+    var colorStyle = r.color ? ' style="background:' + r.color.bg + ';color:' + r.color.text + '"' : "";
 
-    return '<div class="rowc"><div class="stripe ' + r.mode + '"></div><div class="inner">' +
-      '<div class="route ' + r.mode + '">' + r.line + '</div>' +
+    return '<div class="rowc"><div class="stripe ' + r.mode + '"' + (r.color ? ' style="background:' + r.color.bg + '"' : "") + '></div><div class="inner">' +
+      '<div class="route ' + r.mode + '"' + colorStyle + '>' + r.line + '</div>' +
       '<div class="mid"><div class="dest">' + r.dest + '</div>' +
       '<div class="meta">' + rtBadge + statusBadge + (dirText ? '<span class="badge">' + dirText + '</span>' : '') + '</div></div>' +
       '<div class="when"><div class="eta ' + etaClass + '">' + etaText + '</div><div class="clock">' + timeLine + '</div></div>' +
