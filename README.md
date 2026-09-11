@@ -21,3 +21,8 @@ The live feed doesn't allow direct browser access (no CORS headers), so the most
 2. Double-click `start.bat`. It starts a local server and opens the board in your browser.
 
 Everything — live departures, auto-refresh, stop search — works through this local proxy with no dependency on third-party services.
+
+
+## using web UI
+
+the page should work [here](https://applecrabxd.github.io/Metro-Dashbord/) but can be a bit no workey sometime so sorry
