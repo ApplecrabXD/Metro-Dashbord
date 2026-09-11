@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en"><head><style id="qw-theme">:root {
+  --color-bg: #121218;
+  --color-text: #e4e4ed;
+  --color-navbar-bg: #1a1a24;
+  --color-bg-chat-view: #121218;
+  --color-bg-secondary: #1a1a24;
+  --color-bg-tertiary: #1e1e2a;
+  --color-bg-hover: #2a2a38;
+  --color-surface: #1e1e2a;
+  --color-surface-hover: #2a2a38;
+  --color-surface-active: #353546;
+  --color-border: #ffffff1f;
+  --color-border-light: #ffffff0f;
+  --color-border-strong: #3a3a4e;
+  --color-primary: #8575ff;
+  --color-primary-dark: #4200db;
+  --color-primary-light: #8575ff;
+  --color-primary-bg: color-mix(in srgb, #8575ff 15%, transparent);
+  --color-primary-hover-border: #4200db;
+  --color-nav-icon-active: #8575ff;
+  --color-nav-hover-border: #8575ff;
+  --color-primary-alpha-3: color-mix(in srgb, #8575ff 3%, transparent);
+  --color-primary-alpha-5: color-mix(in srgb, #8575ff 5%, transparent);
+  --color-primary-alpha-8: color-mix(in srgb, #8575ff 8%, transparent);
+  --color-primary-alpha-12: color-mix(in srgb, #8575ff 12%, transparent);
+  --color-primary-alpha-15: color-mix(in srgb, #8575ff 15%, transparent);
+  --color-primary-alpha-20: color-mix(in srgb, #8575ff 20%, transparent);
+  --color-primary-alpha-25: color-mix(in srgb, #8575ff 25%, transparent);
+  --color-primary-alpha-30: color-mix(in srgb, #8575ff 30%, transparent);
+  --color-primary-alpha-40: color-mix(in srgb, #8575ff 40%, transparent);
+  --color-primary-alpha-50: color-mix(in srgb, #8575ff 50%, transparent);
+  --color-primary-alpha-60: color-mix(in srgb, #8575ff 60%, transparent);
+  --color-primary-subtle: color-mix(in srgb, #8575ff 25%, transparent);
+  --color-primary-border: color-mix(in srgb, #8575ff 50%, transparent);
+  --color-focus-ring: color-mix(in srgb, #8575ff 60%, transparent);
+  --color-sidebar-hover: color-mix(in srgb, #8575ff 15%, transparent);
+  --block-hover-outline: 1px dashed color-mix(in srgb, #8575ff 50%, transparent);
+  --block-selected-outline: 1px solid #8575ff;
+  --block-selection-outline-offset: 2px;
+  --block-selected-halo: 0 0 8px color-mix(in srgb, #8575ff 40%, transparent);
+  --color-accent: #8575ff;
+  --color-accent-foreground: #8575ff;
+  --color-accent-dark: #4200db;
+  --color-accent-light: color-mix(in srgb, #8575ff 15%, transparent);
+  --color-accent-inverse: #fff;
+  --color-link: #8575ff;
+  --color-primary-gradient-end: color-mix(in srgb, #8575ff 35%, transparent);
+  --color-primary-bg-solid: #1a1530;
+  --color-user-bubble: #333843;
+  --color-user-bubble-text: #e4e4ed;
+  --color-text-secondary: #a0a0b4;
+  --color-text-tertiary: #8a8a9a;
+  --color-text-muted: #6e6e82;
+  --color-text-on-primary: #fff;
+  --color-success: #4ade80;
+  --color-success-dark: #00802f;
+  --color-success-light: #d9ffd6;
+  --color-success-hover: #005c26;
+  --color-success-bg: #1c2c22;
+  --color-success-border: #0e3d1c;
+  --color-success-foreground: #4ade80;
+  --color-success-dark-foreground: #00802f;
+  --color-success-text: #4ade80;
+  --color-error: #ff6b6b;
+  --color-error-dark: #db0000;
+  --color-error-light: #ffe0e0;
+  --color-error-hover: #3b1a24;
+  --color-error-bg: #3b1a24;
+  --color-error-border: #5e1a24;
+  --color-error-active-border: #db0000;
+  --color-error-foreground: #ff6b6b;
+  --color-error-dark-foreground: #db0000;
+  --color-error-inverse: #fff;
+  --color-error-text: #ff6b6b;
+  --color-warning: #fbbf24;
+  --color-warning-dark: #573a00;
+  --color-warning-light: #fffbbd;
+  --color-warning-hover: #db9200;
+  --color-warning-bg: #3d3520;
+  --color-warning-border: #5e4a1a;
+  --color-warning-foreground: #fbbf24;
+  --color-warning-dark-foreground: #573a00;
+  --color-warning-inverse: #573a00;
+  --color-surface-warning: #fffbbd;
+  --color-text-warning: #573a00;
+  --color-info: #60a5fa;
+  --color-info-dark: #006ce0;
+  --color-info-light: #d1f1ff;
+  --color-info-hover: #003b8f;
+  --color-info-bg: #1a2a42;
+  --color-info-border: #0f3d6e;
+  --color-info-foreground: #60a5fa;
+  --color-info-dark-foreground: #002a66;
+  --color-info-inverse: #fff;
+  --color-overlay: #000000b3;
+  --color-shadow: #0000004d;
+  --color-hover: #ffffff0d;
+  --color-tooltip-bg: #1e1e2af2;
+  --color-tooltip-text: #e4e4ed;
+  --color-voice-purple: #8575ff;
+  --color-voice-purple-dark: #4200db;
+  --color-voice-purple-light: #8575ff;
+  --color-voice-red: #ff6b6b;
+  --color-voice-red-dark: #db0000;
+  --color-voice-amber: #fbbf24;
+  --color-voice-purple-glow: #8575ff66;
+  --color-voice-red-glow: #db000066;
+  --font-sans: "Amazon Ember", "Helvetica Neue", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: "SF Mono", "Monaco", "Menlo", "Consolas", monospace;
+  --text-2xs: .5625rem;
+  --text-xs: .625rem;
+  --text-sm: .6875rem;
+  --text-base: .75rem;
+  --text-md: .8125rem;
+  --text-lg: .875rem;
+  --text-xl: 1rem;
+  --text-2xl: 1.125rem;
+  --text-3xl: 1.25rem;
+  --text-4xl: 1.5rem;
+  --text-5xl: 2rem;
+  --spacing-1: calc(.25rem * 1);
+  --spacing-1-5: calc(.25rem * 1.5);
+  --spacing-2: calc(.25rem * 2);
+  --spacing-3: calc(.25rem * 3);
+  --spacing-4: calc(.25rem * 4);
+  --spacing-5: calc(.25rem * 5);
+  --spacing-6: calc(.25rem * 6);
+  --spacing-7: calc(.25rem * 7);
+  --spacing-8: calc(.25rem * 8);
+  --spacing-9: calc(.25rem * 9);
+  --spacing-10: calc(.25rem * 10);
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-card: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 8px;
+  --shadow-sm: 0 1px 2px #0003;
+  --shadow-md: 0 4px 12px #0000004d;
+  --color-success-bg-solid: #1a3d28;
+  --color-error-bg-solid: #4a2028;
+  --color-error-border-solid: #5e1a24;
+  --color-warning-bg-solid: #4a3a1e;
+  --color-warning-text: #fbbf24;
+  --color-info-bg-solid: #1a3050;
+  --color-info-bg-solid-alt: #222240;
+  --color-info-text: #60a5fa;
+  --color-info-text-alt: #818cf8;
+  --color-emerald: #34d399;
+  --color-teal: #5eead4;
+  --color-code-bg: #1e1e2a;
+  --color-code-header-bg: #252535;
+  --color-code-text: #e4e4ed;
+  --color-code-border: #2e2e3e;
+  --color-code-muted: #6e6e82;
+  --color-inline-code-bg: #1e1e2a;
+  --color-inline-code-text: #e4e4ed;
+  --color-inline-code-border: #2e2e3e;
+  --color-scrollbar-thumb: #3a3a4e;
+  --color-scrollbar-track: transparent;
+  --color-graph-node-text: #e4e4ed;
+  --color-graph-node-text-dim: #6e6e82;
+  --color-graph-edge-default: #6e6e82;
+  --color-graph-edge-cross: #f39c12;
+  --color-graph-edge-text: #a0a0b4;
+  --color-graph-edge-stroke: #1a1a24;
+  --color-graph-highlight-bg: #ff6b6b;
+  --color-graph-highlight-border: #e74c3c;
+  --color-graph-search-bg: gold;
+  --color-graph-search-border: orange;
+  --color-graph-focus-border: #f44;
+  --color-graph-external-border: #6e6e82;
+  --color-graph-cat-file: #5dade2;
+  --color-graph-cat-folder: #aab7b8;
+  --color-graph-cat-file-aggregate: #5499c7;
+  --color-graph-cat-class: #bb8fce;
+  --color-graph-cat-function: #58d68d;
+  --color-graph-cat-method: #48c9b0;
+  --color-graph-cat-variable: #f5b041;
+  --color-graph-cat-import: #eb984e;
+  --color-graph-cat-module: #7e8ce0;
+  --color-graph-cat-concept: #ec7063;
+  --color-graph-cat-person: #ff8a8a;
+  --color-graph-cat-org: #76d7c4;
+  --color-graph-cat-organization: #76d7c4;
+  --color-graph-cat-product: #b8b0fe;
+  --color-graph-cat-metric: #fea0c0;
+  --color-graph-cat-location: #7e9bb5;
+  --color-graph-cat-date: #f092c0;
+  --color-graph-cat-code: #5dade2;
+  --color-graph-cat-doc: #aab7b8;
+  --color-graph-cat-url: #45d6b5;
+  --color-graph-cat-email: #8e7cf7;
+  --color-graph-cat-unknown: #d5dbdb;
+  --color-graph-rel-contains: #d5dbdb;
+  --color-graph-rel-extends: #bb8fce;
+  --color-graph-rel-implements: #5dade2;
+  --color-graph-rel-imports: #eb984e;
+  --color-graph-rel-uses: #58d68d;
+  --color-graph-rel-calls: #52be80;
+  --color-graph-rel-references: #f5b041;
+  --color-graph-rel-related-to: #aab7b8;
+  --color-graph-rel-works-on: #ec7063;
+  --color-graph-rel-owns: #48c9b0;
+  --color-graph-rel-depends-on: #eb984e;
+  --color-graph-rel-parent-of: #d5dbdb;
+  --qs-content: #fff;
+  --qs-main: #fff;
+  --qs-primary-foreground: #131920;
+  --qs-secondary-foreground: #656871;
+  --qs-tertiary-foreground: #6e6e82;
+  --qs-placeholder-foreground: #8c8c94;
+  --qs-divider: #dedee3;
+  --qs-default-border: #8c8c94;
+  --qs-neutral-soft: #b4b4bb;
+  --qs-neutral-gray-50: #1e1e2a;
+  --qs-tertiary-background: #1e1e2a;
+  --qs-action-hover: #f3f3f7;
+  --qs-primary-default: #4200db;
+  --qs-primary-dark: #35009e;
+  --qs-primary-light: #e8e6ff;
+  --qs-success-default: #00802f;
+  --qs-error-default: #db0000;
+  --qs-font-sans: "Amazon Ember", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  --safe-top: 0px;
+  --safe-bottom: 0px;
+  --safe-left: 0px;
+  --safe-right: 0px;
+  --qs-font-family: "Amazon Ember", "Helvetica Neue", "Segoe UI", Helvetica, Arial, sans-serif;
+  --qs-font-base-letter-spacing: .15px;
+  --qs-shadow-sm: 0 0 2px 0 #00000029, 0 0 4px 0 #00000029;
+  --qs-shadow-md: 0 0 2px 0 #00000029, 0 2px 8px 1px #00000029;
+  --qs-shadow-lg: 0 4px 16px 4px #00000029, 0 2px 6px 1px #00000029;
+  --qs-shadow-xl: 0 4px 8px 2px #00000029, 0 6px 20px 4px #00000029;
+  --qs-width-modal-sm: 384px;
+  --qs-width-modal-md: 600px;
+  --qs-width-modal-lg: 1136px;
+  --qs-grid-gap: 16px;
+  --qs-grid-gap-xl: 24px;
+  --qs-primary-medium: #8575ff;
+  --qs-primary-inverse: #fff;
+  --qs-neutral-lightest: #f9f9fb;
+  --qs-neutral-light: #f3f3f7;
+  --qs-neutral-default: #dedee3;
+  --qs-neutral-medium: #8c8c94;
+  --qs-neutral-deep: #656871;
+  --qs-neutral-dark: #333843;
+  --qs-neutral-strong: #131920;
+  --qs-neutral-white: #fff;
+  --qs-neutral-black: #000;
+  --qs-success-medium: #005c26;
+  --qs-success-dark: #00471e;
+  --qs-success-light: #d9ffd6;
+  --qs-success-inverse: #fff;
+  --qs-info-default: #006ce0;
+  --qs-info-medium: #003b8f;
+  --qs-info-dark: #002a66;
+  --qs-info-light: #d1f1ff;
+  --qs-info-inverse: #fff;
+  --qs-warning-default: #f2b100;
+  --qs-warning-medium: #db9200;
+  --qs-warning-dark: #573a00;
+  --qs-warning-light: #fffbbd;
+  --qs-warning-inverse: #573a00;
+  --qs-warning-experimental: #f2b100;
+  --qs-warning-experimental-light: #fffbbd;
+  --qs-warning-experimental-light-foreground: #fffbbd;
+  --qs-error-medium: #900;
+  --qs-error-dark: #700000;
+  --qs-error-light: #ffe0e0;
+  --qs-error-inverse: #fff;
+  --qs-connection-default: #db3300;
+  --qs-connection-soft: #ff997a;
+  --qs-connection-light: #ffe0d6;
+  --qs-connection-dark: #661800;
+  --qs-automation-default: #b3008f;
+  --qs-automation-medium: #d600ba;
+  --qs-automation-soft: #ff94f1;
+  --qs-automation-light: #ffe0fb;
+  --qs-automation-dark: #660052;
+  --qs-insight-default: #a000b8;
+  --qs-insight-soft: #f299ff;
+  --qs-insight-light: #fce6ff;
+  --qs-insight-dark: #590066;
+  --qs-visualization-default: #7300e5;
+  --qs-visualization-soft: #d4a8ff;
+  --qs-visualization-light: #f2e5ff;
+  --qs-visualization-dark: #45008a;
+  --qs-spice: #ff9800;
+  --qs-coachmark: #006ce0;
+  --qs-brand: #fff;
+  --qs-brand-foreground: #131920;
+  --qs-brand-navbar: #131920;
+  --qs-brand-navbar-foreground: #fff;
+  --qs-brand-navbar-light: #dedee3;
+  --qs-brand-navbar-dark: #000;
+  --qs-application-navbar: #4200db;
+  --qs-application-navbar-foreground: #fff;
+  --qs-application-navbar-light: #e8e6ff;
+  --qs-application-navbar-dark: #35009e;
+  --qs-dimension: #4200db;
+  --qs-dimension-foreground: #fff;
+  --qs-dimension-experimental: #4200db;
+  --qs-dimension-experimental-foreground: #4200db;
+  --qs-measure: #00802f;
+  --qs-measure-foreground: #fff;
+  --qs-measure-experimental: #f2b100;
+  --qs-measure-experimental-foreground: #f2b100;
+  --qs-content-inverse: #333843;
+  --qs-content-inverse-active: #131920;
+  --qs-secondary: #dedee3;
+  --qs-disabled: #8c8c94;
+  --qs-divider-light: #f3f3f7;
+  --qs-hover-border: #333843;
+  --qs-active-border: #4200db;
+  --qs-disabled-border: #dedee3;
+  --qs-error-border: #ffe0e0;
+  --qs-error-active-border: #db0000;
+  --qs-disabled-foreground: #b4b4bb;
+  --qs-primary-inverse-foreground: #fff;
+  --qs-error-foreground: #db0000;
+  --qs-contrast-foreground: #131920;
+  --qs-main-foreground: #131920;
+  --qs-main-secondary-foreground: #656871;
+  --qs-action-disabled: #f3f3f7;
+  --qs-action-active: #e8e6ff;
+  --qs-default-badge: #dedee3;
+  --qs-tag-default: #dedee3;
+  --qs-tag-soft-border: #b4b4bb;
+  --qs-focus-offset: 1px;
+  --qs-toggle-tile-sm: calc(.25rem * 8);
+  --qs-toggle-tile-md: calc(.25rem * 12);
+  --qs-toggle-tile-lg: calc(.25rem * 15);
+  --qs-shadow-pin-right: inset 4px 0 4px -4px #00000029;
+  --qs-shadow-pin-left: inset -4px 0 4px -4px #00000029;
+  --react-pdf-text-layer: 1;
+  --highlight-bg-color: #b400aa;
+  --highlight-selected-bg-color: #006400;
+  --react-pdf-annotation-layer: 1;
+  --annotation-unfocused-field-background: url("data:image/svg+xml;charset=UTF-8,<svg width='1px' height='1px' xmlns='http://www.w3.org/2000/svg'><rect width='100%' height='100%' style='fill:rgba(0, 54, 255, 0.13);'/></svg>");
+  --input-focus-border-color: Highlight;
+  --input-focus-outline: 1px solid Canvas;
+  --input-unfocused-border-color: transparent;
+  --input-disabled-border-color: transparent;
+  --input-hover-border-color: black;
+  --link-outline: none;
+  color-scheme: dark;
+}
+body { background: var(--color-bg); color: var(--color-text); }
+a { color: var(--color-link, var(--color-primary)); }</style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Live Departures — Stop 16584</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  :root{
+    --bg:#0b1020; --panel:#141b2e; --panel2:#1b2440; --line:#26304d;
+    --ink:#eef2ff; --muted:#93a0c4; --accent:#4da3ff; --good:#37d67a;
+    --warn:#ffb020; --late:#ff5a6e; --chip:#22304f;
+    --bus:#0a7d3d; --train:#c0392b; --tram:#e08a1e; --schoolbus:#8e44ad;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 20% -10%,#16203c 0%,var(--bg) 60%);color:var(--ink);min-height:100vh}
+  .wrap{max-width:820px;margin:0 auto;padding:20px 16px 60px}
+  header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+  .brand{display:flex;align-items:center;gap:12px;min-width:0}
+  .logo{width:46px;height:46px;flex:none;border-radius:12px;background:linear-gradient(135deg,#e08a1e,#c0392b);
+    display:grid;place-items:center;font-weight:800;font-size:22px;box-shadow:0 6px 20px rgba(224,138,30,.4)}
+  h1{font-size:20px;margin:0;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .sub{color:var(--muted);font-size:12px;margin-top:3px;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+  .pill{font-size:11px;padding:2px 8px;border-radius:999px;background:var(--panel2);border:1px solid var(--line)}
+  .toggle{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);white-space:nowrap}
+  .bar{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap}
+  .bar button{cursor:pointer;background:var(--accent);border:none;border-radius:10px;padding:9px 14px;font-size:14px;font-weight:700;color:#04122b}
+  .bar button.secondary{background:var(--panel2);color:var(--ink);border:1px solid var(--line);font-weight:600}
+  .status{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted);margin-bottom:12px;min-height:18px}
+  .dot{width:8px;height:8px;border-radius:50%;background:var(--muted)}
+  .dot.live{background:var(--good);box-shadow:0 0 0 4px rgba(55,214,122,.15);animation:pulse 1.6s infinite}
+  .dot.err{background:var(--late)}
+  @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(55,214,122,.4)}70%{box-shadow:0 0 0 8px rgba(55,214,122,0)}100%{box-shadow:0 0 0 0 rgba(55,214,122,0)}}
+  #map{height:280px;border-radius:14px;border:1px solid var(--line);margin-bottom:14px;background:var(--panel);z-index:0}
+  .leaflet-container{background:#0f1730}
+  .maphint{color:var(--muted);font-size:11px;margin:-8px 2px 14px}
+  .veh-ico{background:var(--tram);color:#fff;font-weight:800;font-size:11px;border:2px solid #fff;border-radius:50%;
+    width:26px;height:26px;display:grid;place-items:center;box-shadow:0 2px 6px rgba(0,0,0,.5)}
+  .stop-ico{background:var(--accent);border:3px solid #fff;border-radius:50%;width:18px;height:18px;box-shadow:0 2px 6px rgba(0,0,0,.6)}
+  .list{display:flex;flex-direction:column;gap:10px}
+  .rowc{display:flex;align-items:stretch;background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .stripe{width:6px;flex:none;background:var(--chip)}
+  .stripe.bus{background:var(--bus)} .stripe.train{background:var(--train)} .stripe.tram{background:var(--tram)} .stripe.schoolbus{background:var(--schoolbus)}
+  .inner{display:flex;align-items:center;gap:12px;padding:12px 14px;flex:1;min-width:0}
+  .route{min-width:64px;height:42px;padding:0 10px;border-radius:9px;background:var(--chip);
+    display:grid;place-items:center;font-weight:800;font-size:15px;color:#fff;border:1px solid rgba(255,255,255,.12);text-align:center;line-height:1.05}
+  .route.bus{background:var(--bus)} .route.train{background:var(--train)} .route.tram{background:var(--tram)} .route.schoolbus{background:var(--schoolbus)}
+  .mid{flex:1;min-width:0}
+  .dest{font-weight:600;font-size:15px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .meta{color:var(--muted);font-size:12px;margin-top:3px;display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+  .badge{font-size:11px;padding:2px 7px;border-radius:999px;background:var(--panel2);border:1px solid var(--line);white-space:nowrap}
+  .badge.rt{color:var(--good);border-color:rgba(55,214,122,.4)}
+  .badge.ontime{color:var(--good)} .badge.early{color:var(--accent)} .badge.late{color:var(--late);border-color:rgba(255,90,110,.4)}
+  .when{text-align:right;min-width:92px;padding-left:6px}
+  .eta{font-size:22px;font-weight:800;line-height:1}
+  .eta.soon{color:var(--good)} .eta.late{color:var(--late)} .eta.due{color:var(--warn)}
+  .clock{font-size:12px;color:var(--muted);margin-top:4px}
+  .clock s{color:#6b789e;text-decoration:line-through;margin-right:5px}
+  .empty,.errbox{background:var(--panel);border:1px dashed var(--line);border-radius:14px;padding:24px;text-align:center;color:var(--muted)}
+  .errbox{border-color:rgba(255,90,110,.4);color:#ffd3d9}
+  a{color:var(--accent)}
+  footer{margin-top:22px;color:var(--muted);font-size:11px;line-height:1.6;text-align:center}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">
+      <div class="logo">🚊</div>
+      <div style="min-width:0">
+        <h1 id="stopName">Stop 16584</h1>
+        <div class="sub"><span class="pill" id="modePill">Adelaide Metro</span><span id="opName"></span></div>
+      </div>
+    </div>
+    <label class="toggle"><input type="checkbox" id="autoRefresh" checked=""> Auto-refresh</label>
+  </header>
+
+  <div class="bar">
+    <button id="go">Refresh</button>
+    <button id="proxyToggle" class="secondary" title="Use a CORS proxy if direct calls are blocked">Proxy: auto</button>
+    <span class="pill">All destinations · next 120 min</span>
+  </div>
+
+  <div class="status"><span class="dot" id="dot"></span><span id="statusText">Ready — click Refresh to load live departures.</span></div>
+
+  <div id="map"></div>
+  <div class="maphint">🔵 stop &nbsp; 🟠 live vehicle position (from the feed's GPS). Vehicles without GPS aren't shown on the map but still appear in the list.</div>
+
+  <div class="list" id="list"></div>
+
+  <footer>
+    Live data for <b>Stop 16584</b> from <a href="https://www.adelaidemetro.com.au/developer-info" target="_blank" rel="noopener">Adelaide Metro SIRI Stop Monitoring</a>, free under Creative Commons.<br>
+    Map © <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> contributors. Attribution: <em>Adelaide Metro – Department for Infrastructure and Transport, South Australia</em>.
+  </footer>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+window.addEventListener('unhandledrejection', function(ev){ try{ev.preventDefault();}catch(e){} }, true);
+window.addEventListener('error', function(ev){ try{ if(!ev||!ev.error){ ev.preventDefault&&ev.preventDefault(); } }catch(e){} }, true);
+
+// ---- Hard-coded to stop 16584, all destinations, 120-minute window ----
+var STOP = "16584";
+var EP = "https://realtime.adelaidemetro.com.au/sirism/SiriStopMonitoring.svc/json/SM";
+var URL = EP + "?MonitoringRef=" + STOP + "&PreviewInterval=120&MaximumStopVisits=40";
+var PROXIES = [
+  function(u){ return "https://corsproxy.io/?url=" + encodeURIComponent(u); },
+  function(u){ return "https://api.allorigins.win/raw?url=" + encodeURIComponent(u); }
+];
+var proxyMode = "auto"; // auto | direct | proxy
+var timer = null, started = false;
+
+// ---- map state ----
+var map=null, stopMarker=null, vehLayer=null;
+function initMap(){
+  if(map || typeof L==="undefined") return;
+  try{
+    map = L.map('map', {zoomControl:true, attributionControl:false}).setView([-34.9285,138.6007], 12); // Adelaide default
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      maxZoom:19, subdomains:'abcd'
+    }).addTo(map);
+    vehLayer = L.layerGroup().addTo(map);
+  }catch(e){}
+}
+function updateMap(stopLL, vehicles){
+  if(!map) return;
+  try{
+    vehLayer.clearLayers();
+    var pts=[];
+    if(stopLL){
+      if(!stopMarker){
+        stopMarker = L.marker(stopLL, {icon:L.divIcon({className:'', html:'<div class="stop-ico"></div>', iconSize:[18,18], iconAnchor:[9,9]})}).addTo(map);
+      } else stopMarker.setLatLng(stopLL);
+      stopMarker.bindPopup("Stop "+STOP);
+      pts.push(stopLL);
+    }
+    vehicles.forEach(function(v){
+      if(!v.ll) return;
+      var label = (v.line||"").slice(0,4);
+      var m = L.marker(v.ll, {icon:L.divIcon({className:'', html:'<div class="veh-ico">'+label+'</div>', iconSize:[26,26], iconAnchor:[13,13]})});
+      m.bindPopup((v.line||"")+" → "+(v.dest||"")+(v.eta!=null?("<br/>"+v.eta+" min away"):""));
+      vehLayer.addLayer(m); pts.push(v.ll);
+    });
+    if(pts.length){
+      var b=L.latLngBounds(pts); map.fitBounds(b.pad(0.3), {maxZoom:15});
+    }
+  }catch(e){}
+}
+
+function $(id){ return document.getElementById(id); }
+function setStatus(t,k){ $("statusText").textContent=t; $("dot").className="dot"+(k==="live"?" live":k==="err"?" err":""); }
+
+function fetchText(url){
+  if(proxyMode==="proxy") return fetchTextProxy(url);
+  if(proxyMode==="direct") return fetch(url).then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); });
+  return fetch(url).then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); }).catch(function(){ return fetchTextProxy(url); });
+}
+function fetchTextProxy(url){
+  var i=0;
+  function next(){ if(i>=PROXIES.length) return Promise.reject(new Error("proxy failed"));
+    return fetch(PROXIES[i++](url)).then(function(r){ if(!r.ok) throw new Error("HTTP "+r.status); return r.text(); }).catch(next); }
+  return next();
+}
+function fetchJSON(url){ return fetchText(url).then(function(t){ return JSON.parse(t); }); }
+
+function parseMsDate(s){
+  if(!s || typeof s!=="string") return null;
+  var m=s.replace(/\\/g,"").match(/\/Date\((\d+)/); if(!m) return null;
+  var ms=parseInt(m[1],10); return ms===0?null:new Date(ms);
+}
+function val(x){ if(!x) return ""; if(x.Value!=null) return x.Value; if(Array.isArray(x)&&x[0]&&x[0].Value!=null) return x[0].Value; return ""; }
+function coords(obj){
+  // VehicleLocation.Items = [lat, lon] as strings; "-" means unknown
+  if(!obj || !obj.Items) return null;
+  var it=obj.Items; if(it.length<2) return null;
+  var lat=parseFloat(it[0]), lon=parseFloat(it[1]);
+  if(isNaN(lat)||isNaN(lon)||lat===0||lon===0) return null;
+  return [lat, lon];
+}
+function modeOf(lineRef, operator){
+  var l=(lineRef||"").toUpperCase(), o=(operator||"").toLowerCase();
+  if(o.indexOf("tram")>=0 || l==="GLNELG") return "tram";
+  if(o.indexOf("rail")>=0 || o.indexOf("train")>=0) return "train";
+  if(l.indexOf("SCH")>=0) return "schoolbus";
+  return "bus";
+}
+function extractDelivery(data){
+  var smd = data && (data.StopMonitoringDelivery || (data.Siri && data.Siri.ServiceDelivery && data.Siri.ServiceDelivery.StopMonitoringDelivery));
+  var first = Array.isArray(smd)?smd[0]:smd;
+  if(!first) return {resp:null, visits:[]};
+  var v = first.MonitoredStopVisit || [];
+  return {resp:parseMsDate(first.ResponseTimestamp), visits:(Array.isArray(v)?v:[v])};
+}
+function parseVisit(v){
+  var j=v.MonitoredVehicleJourney||{}, call=j.MonitoredCall||{};
+  var aimed=parseMsDate(call.AimedArrivalTime)||parseMsDate(call.AimedDepartureTime);
+  var exp=parseMsDate(call.LatestExpectedArrivalTime)||parseMsDate(call.ExpectedDepartureTime)||parseMsDate(call.ProvisionalExpectedDepartureTime);
+  var best=exp||aimed;
+  var dest=val(j.DestinationName)||val(call.DestinationDisplay)||val(j.DestinationRef)||"—";
+  var lineRef=val(j.LineRef);
+  var line=val(j.PublishedLineName)||lineRef||"?";
+  var operator=val(j.OperatorRef);
+  var isRT=!!j.Monitored && !!exp;
+  var delay=(exp&&aimed)?Math.round((exp-aimed)/60000):null;
+  return { line:(line==="GLNELG"?"TRAM":line), dir:val(j.DirectionRef), dest:dest,
+    operator:operator.replace(/^\d+\s*-\s*/,""), mode:modeOf(lineRef,operator),
+    aimed:aimed, exp:exp, best:best, isRT:isRT, delay:delay, stopName:val(call.StopPointName),
+    vehLL:coords(j.VehicleLocation), stopLL:coords(call.VehicleLocationAtStop) };
+}
+function render(resp, visits){
+  var list=$("list");
+  var parsed=[]; for(var i=0;i<visits.length;i++){ var p=parseVisit(visits[i]); if(p.best) parsed.push(p); }
+  parsed.sort(function(a,b){ return a.best-b.best; });
+
+  var stopLL=null;
+  for(var s=0;s<parsed.length;s++){ if(parsed[s].stopLL){ stopLL=parsed[s].stopLL; break; } }
+
+  if(parsed.length && parsed[0].stopName){
+    $("stopName").textContent = parsed[0].stopName + " · " + STOP;
+    var m=parsed[0].mode;
+    $("modePill").textContent = m==="tram"?"Tram":m==="train"?"Train":m==="schoolbus"?"School bus":"Bus";
+    $("opName").textContent = parsed[0].operator || "";
+  }
+
+  var now = resp ? resp.getTime() : Date.now();
+
+  // build vehicle list for map (dedup by rough position, only those with GPS)
+  var vehForMap=[]; var seen={};
+  parsed.forEach(function(r){
+    if(r.vehLL){
+      var key=r.vehLL[0].toFixed(4)+","+r.vehLL[1].toFixed(4);
+      if(seen[key]) return; seen[key]=1;
+      var eta = r.best ? Math.round((r.best-now)/60000) : null;
+      vehForMap.push({ll:r.vehLL, line:r.line, dest:r.dest, eta:eta});
+    }
+  });
+  updateMap(stopLL, vehForMap);
+
+  if(!parsed.length){
+    list.innerHTML='<div class="empty"><b>No departures in the next 120 minutes</b> for Stop '+STOP+'.<br/>'+
+      'The feed is working — this stop just has nothing scheduled/tracked right now.</div>';
+    return;
+  }
+  list.innerHTML = parsed.map(function(r){
+    var mins=Math.round((r.best-now)/60000);
+    var clock=r.best.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'});
+    var etaTxt, etaCls="";
+    if(mins<=0){ etaTxt="Due"; etaCls="due"; }
+    else if(mins<60){ etaTxt=mins+"′"; etaCls=mins<=5?"soon":""; }
+    else etaTxt=clock;
+    var timeLine = (r.isRT && r.aimed && r.exp && r.aimed.getTime()!==r.exp.getTime())
+      ? ('<s>'+r.aimed.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})+'</s>'+clock) : clock;
+    var statusBadge="";
+    if(r.isRT){
+      if(r.delay===null || r.delay===0) statusBadge='<span class="badge ontime">on time</span>';
+      else if(r.delay<0) statusBadge='<span class="badge early">'+Math.abs(r.delay)+'m early</span>';
+      else statusBadge='<span class="badge late">'+r.delay+'m late</span>';
+    }
+    var rtBadge=r.isRT?'<span class="badge rt">● live</span>':'<span class="badge">scheduled</span>';
+    var dirTxt=r.dir==="I"?"Inbound":r.dir==="O"?"Outbound":"";
+    var gpsBadge=r.vehLL?'<span class="badge">📍 on map</span>':'';
+    return '<div class="rowc"><div class="stripe '+r.mode+'"></div><div class="inner">'+
+      '<div class="route '+r.mode+'">'+r.line+'</div>'+
+      '<div class="mid"><div class="dest">'+r.dest+'</div>'+
+      '<div class="meta">'+rtBadge+statusBadge+(dirTxt?'<span class="badge">'+dirTxt+'</span>':'')+gpsBadge+'</div></div>'+
+      '<div class="when"><div class="eta '+etaCls+'">'+etaTxt+'</div><div class="clock">'+timeLine+'</div></div>'+
+      '</div></div>';
+  }).join("");
+}
+function refresh(){
+  setStatus("Fetching live departures…");
+  return fetchJSON(URL).then(function(data){
+    var ex=extractDelivery(data); render(ex.resp, ex.visits);
+    var stamp=new Date().toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+    var n=ex.visits.length;
+    setStatus(n?("Live · "+n+" departures · updated "+stamp):("Connected · no departures right now · "+stamp), "live");
+  }).catch(function(e){
+    $("list").innerHTML='<div class="errbox"><b>Couldn\'t read the feed from this page.</b><br/>'+
+      'This is almost always <b>CORS</b> (the feed works, but the browser won\'t let this page read a cross-site response directly).<br/>'+
+      '👉 Click the <b>Proxy</b> button until it says <b>“on”</b>, then Refresh.<br/><br/>'+
+      '<a href="'+URL+'" target="_blank" rel="noopener">Open the raw feed in a new tab ↗</a> to confirm it returns JSON.<br/>'+
+      '<small>'+(e&&e.message?e.message:e)+'</small></div>';
+    setStatus("Error loading feed","err");
+  });
+}
+function schedule(){ if(timer) clearInterval(timer); if($("autoRefresh").checked) timer=setInterval(function(){ refresh().catch(function(){}); },45000); }
+function startLive(){ if(started) return; started=true; initMap(); schedule(); }
+
+$("go").addEventListener("click", function(){ startLive(); refresh().catch(function(){}); });
+$("autoRefresh").addEventListener("change", schedule);
+$("proxyToggle").addEventListener("click", function(){
+  proxyMode = proxyMode==="auto"?"proxy":proxyMode==="proxy"?"direct":"auto";
+  $("proxyToggle").textContent = "Proxy: "+(proxyMode==="auto"?"auto":proxyMode==="proxy"?"on":"off");
+  startLive(); refresh().catch(function(){});
+});
+// Initialise the map immediately so the panel isn't blank (tiles load if network available).
+try{ initMap(); }catch(e){}
+</script>
+
+
+</body></html>
